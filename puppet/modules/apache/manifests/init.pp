@@ -36,10 +36,14 @@ class apache
             source  => "/vagrant/puppet/templates/vhost",
             require => Package['apache2'],
     }
-
-    exec 
-    { 
-        'echo "ServerName localhost" | sudo tee /etc/apache2/conf-enabled/fqdn.conf':
+    
+    file
+    {
+        "/etc/apache2/apache2.conf":
+            ensure  => present,
+            owner   => root, group => root,
+            notify  => Service['apache2'],    
+            source  => "/vagrant/puppet/templates/apache2.conf",
             require => Package['apache2'],
     }
 }
